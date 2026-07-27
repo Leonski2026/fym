@@ -264,7 +264,7 @@ std::future<int> compilecommand(const BuildTarget& target) {
 
     global_bdcommand = bdcommand;
     return std::async(std::launch::async, [bdcommand]() {
-        std::cout << "[DEBUG] Executing: " << bdcommand << std::endl;
+        
         return std::system(bdcommand.c_str());
     });
 }
