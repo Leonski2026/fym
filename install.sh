@@ -2,11 +2,11 @@
 
 # Exit immediately if any command fails
 set -e
-g++ -std=c++20 -O3 fym/main.cpp -o fym
+g++ -std=c++20 -O3 fym/main.cpp -o fym_bin
 echo -e "\033[36m=== Setting Up Pre-compiled fym Compiler ===\033[0m"
 
 # 1. Verify that the fym binary exists in the current directory
-if [ ! -f "fym" ]; then
+if [ ! -f "fym_bin" ]; then
     echo -e "\033[31m[Error] Binary file named 'fym' not found in this folder!\033[0m"
     echo "Please make sure your pre-compiled 'fym' file is right next to this script."
     exit 1
