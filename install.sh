@@ -2,7 +2,7 @@
 
 # Exit immediately if any command fails
 set -e
-
+g++ -std=c++20 -O3 fym/main.cpp -o fym
 echo -e "\033[36m=== Setting Up Pre-compiled fym Compiler ===\033[0m"
 
 # 1. Verify that the fym binary exists in the current directory
