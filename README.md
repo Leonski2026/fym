@@ -15,10 +15,10 @@
 - **Order-Independent Parsing**: Fields inside target configuration blocks can be written in absolutely any order.
 - **Asynchronous Multithreading**: Targets compile concurrently in the background using C++ `std::async`.
 - **Wildcard Resolution**: Dynamically resolves source files like `*.cpp` inside specified project directories.
-##How to install
+## How to install
 > go into the **~(home/username) folder** and type:
-- ```text
-   git clone 
+- ```bash
+   git clone https://github.com/Leonski2026/fym.git
    cd fym
    chmod +x install.sh
    ./install.sh
