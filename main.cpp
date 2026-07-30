@@ -31,12 +31,6 @@ struct Token {
 
 typedef std::unordered_map<std::string, Tokentype> tmap;
 
-inline tmap tokens{
-    {":", Tokentype::_colon},
-    {"shell", Tokentype::_shell}
-};
-
-
 std::vector<std::string> out;
 std::unordered_map<std::string, std::string> usrvar;
 std::vector<std::future<int>> global_hintergrund_tasks;
