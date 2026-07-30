@@ -17,7 +17,7 @@
 - **Wildcard Resolution**: Dynamically resolves source files like `*.cpp` inside specified project directories.
 ## How to install
 > go into the **~(home/username) folder** and type:
-- ```bash
+- ```text
    git clone https://github.com/Leonski2026/fym.git
    cd fym
    chmod +x install.sh
