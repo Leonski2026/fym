@@ -12,4 +12,8 @@ fi
 
 sudo mv ~/fym/fym /usr/local/bin/fym
 
+ls -l /usr/local/bin/fym
+sudo pkill -f '/usr/local/bin/fym' || true
+
+
 echo "ready to use!"
