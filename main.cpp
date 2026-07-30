@@ -165,24 +165,24 @@ void vardec(strvec &exblv) {
 }
 
 void filecommand(BuildTarget& target) {
-    // 1. WICHTIG: Variable immer zuerst leeren, um Altlasten zu vermeiden!
+    
     target.lokale_files = "";
+
+    
+    const std::string file_word = "files:";
 
     for (const std::string &roh_zeile : target.zeilen) {
         std::string zeile = trim(roh_zeile);
 
-        // Kommentare und leere Zeilen überspringen
         if (zeile.empty() || zeile.rfind("#", 0) == 0 || zeile.rfind("//", 0) == 0)
             continue;
 
-        // Prüfen ob die Zeile das 'files' Keyword enthält
-        // Hinweis: Stelle sicher, dass file_word genau dem entspricht, was in der Datei steht (z.B. "files:")
         size_t filepos = zeile.find(file_word);
-
         if (filepos != std::string::npos) {
+        
             std::string inhalt = trim(zeile.substr(filepos + file_word.length()));
 
-            // --- Variablen Ersetzung ({projekt}, etc.) ---
+            
             size_t startBrace = 0;
             while ((startBrace = inhalt.find('{', startBrace)) != std::string::npos) {
                 size_t endBrace = inhalt.find('}', startBrace + 1);
@@ -198,103 +198,87 @@ void filecommand(BuildTarget& target) {
                 } else break;
             }
 
-            // --- Wildcard Logik ---
-            size_t star_pos = inhalt.find('*');
-
-            // Wenn ein Sternchen vorhanden ist, suchen wir Dateien
-            if (star_pos != std::string::npos) {
+            if (inhalt.find('*') != std::string::npos) {
                 std::vector<std::string> endungen;
                 std::istringstream iss(inhalt);
                 std::string token;
 
-                // Basis-Ordner bestimmen (Standard ist das Projektverzeichnis)
-                std::string such_ordner = target.lokales_projekt.empty() ? "." : target.lokales_projekt;
+                
+                std::string basis_ordner = target.lokales_projekt.empty() ? "." : target.lokales_projekt;
+                std::string finaler_ordner = basis_ordner;
+                bool pfad_vom_nutzer = false;
 
-                // Alle Tokens durchgehen (unterstützt "*.cpp *.hpp")
+                
                 while (iss >> token) {
                     size_t t_star = token.find('*');
                     if (t_star != std::string::npos) {
-                        // Punkt NACH dem Stern suchen
+                        
                         size_t t_dot = token.find('.', t_star);
                         if (t_dot != std::string::npos) {
                             std::string ext = token.substr(t_dot);
-                            // Duplikate vermeiden
                             if (std::find(endungen.begin(), endungen.end(), ext) == endungen.end()) {
                                 endungen.push_back(ext);
                             }
                         }
 
-                        // Pfad vor dem Stern extrahieren (z.B. "src/" aus "src/*.cpp")
+                        
                         if (t_star > 0) {
                             std::string pfad_teil = token.substr(0, t_star);
-                            // Letztes Slash finden
                             size_t slash = pfad_teil.find_last_of('/');
                             if (slash != std::string::npos) {
-                                // Wenn ein Pfad angegeben ist, überschreibt dieser den Basis-Ordner
-                                // Aber nur wenn der Pfad absolut ist oder wir ihn relativ zum Projekt sehen wollen?
-                                // Einfache Logik: Wenn "src/*.cpp", dann ist der Ordner "src" relativ zum CWD?
-                                // Oder relativ zum Projekt?
-                                // Wir nehmen an: Der Pfad im Token ist relativ zum aktuellen Arbeitsverzeichnis ODER absolut.
-                                // Wenn dein Projekt in "test" liegt und du "files: *.cpp" schreibst,
-                                // soll im Ordner "test" gesucht werden (durch such_ordner oben gesetzt).
-                                // Wenn du "files: src/*.cpp" schreibst, muss der Pfad "src" existieren.
-
-                                // KORREKTUR FÜR DEINEN FALL:
-                                // Wenn kein Slash im Token vor dem Stern ist, bleibt such_ordner (also target.lokales_projekt).
-                                // Wenn ein Slash da ist, nutzen wir den Pfad davor.
-                                std::string neuer_ordner = pfad_teil.substr(0, slash);
-                                if (!neuer_ordner.empty()) {
-                                    // Wenn der Pfad nicht absolut ist, könnte er relativ zum Projekt sein?
-                                    // Der Einfachheit halber nehmen wir ihn so, wie er da steht.
-                                    // ABER: Wenn du "files: *.cpp" hast und projekt:test,
-                                    // dann ist such_ordner schon "test". Das ist korrekt.
-                                    // Wenn du "files: src/*.cpp" hast, ist such_ordner dann "src".
-                                    such_ordner = neuer_ordner;
+                                // Pfad vor dem Stern extrahieren
+                                std::string ordner = pfad_teil.substr(0, slash);
+                                if (!ordner.empty()) {
+                                    finaler_ordner = ordner;
+                                    pfad_vom_nutzer = true;
                                 }
                             }
                         }
                     }
                 }
 
-                // Dateien sammeln
-                std::string ergebnis = "";
-                if (fs::exists(such_ordner) && fs::is_directory(such_ordner)) {
-                    for (const auto &entry : fs::directory_iterator(such_ordner)) {
+                
+                std::string ergebnis_liste = "";
+
+                
+                if (!pfad_vom_nutzer) {
+                    finaler_ordner = basis_ordner;
+                }
+
+                if (fs::exists(finaler_ordner) && fs::is_directory(finaler_ordner)) {
+                    for (const auto &entry : fs::directory_iterator(finaler_ordner)) {
                         if (entry.is_regular_file()) {
                             std::string ext = entry.path().extension().string();
+
+                            
                             for (const auto& gesuchte_ext : endungen) {
                                 if (ext == gesuchte_ext) {
-                                    // WICHTIG: Wenn such_ordner nicht "." ist, müssen wir den Pfad mitgeben,
-                                    // sonst findet der Compiler die Datei nicht, wenn er nicht in diesem Ordner startet.
-                                    if (such_ordner != ".") {
-                                        if (!ergebnis.empty()) ergebnis += " ";
-                                        ergebnis += such_ordner + "/" + entry.path().filename().string();
+                                    if (!ergebnis_liste.empty()) ergebnis_liste += " ";
+
+                                    
+                                    if (finaler_ordner != ".") {
+                                        ergebnis_liste += finaler_ordner + "/" + entry.path().filename().string();
                                     } else {
-                                        if (!ergebnis.empty()) ergebnis += " ";
-                                        ergebnis += entry.path().filename().string();
+                                        ergebnis_liste += entry.path().filename().string();
                                     }
-                                    break;
+                                    break; 
                                 }
                             }
                         }
                     }
+                } else {
+                    std::cerr << "Fehler: Ordner '" << finaler_ordner << "' nicht gefunden!" << std::endl;
                 }
 
-                // Ergebnis zuweisen
-                target.lokale_files = ergebnis;
-
-                // Debug Ausgabe (optional, hilft beim Finden des Fehlers)
-                // std::cout << "Gefundene Dateien: '" << target.lokale_files << "'" << std::endl;
-
-                return; // Fertig, Funktion verlassen
+                target.lokale_files = ergebnis_liste;
+                return; 
             } else {
-                // Kein Sternchen -> Inhalt ist ein expliziter Dateiname oder Pfad
+                
                 target.lokale_files = inhalt;
                 return;
             }
         }
     }
-    // Wenn die Schleife endet ohne 'files:' zu finden, bleibt target.lokale_files leer (durch Reset oben).
 }
 
 bool rebuild_required(const std::string &files, const std::string &target) {
