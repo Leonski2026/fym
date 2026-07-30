@@ -15,6 +15,14 @@
 - **Order-Independent Parsing**: Fields inside target configuration blocks can be written in absolutely any order.
 - **Asynchronous Multithreading**: Targets compile concurrently in the background using C++ `std::async`.
 - **Wildcard Resolution**: Dynamically resolves source files like `*.cpp` inside specified project directories.
+##How to install
+> go into the **~(home/username) folder** and type:
+- ```text
+   git clone 
+   cd fym
+   chmod +x install.sh
+   ./install.sh
+  ```
 
 ## ⚠️ Platform Support Note
 This tool is built natively for **Linux / Unix-based systems (Tested on Arch Linux)**. There is **no official Windows support** right now, as path resolution and multi-threading shells depend on POSIX system behavior.
