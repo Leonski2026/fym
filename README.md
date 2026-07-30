@@ -65,4 +65,8 @@ fym
 ```
 
 ## License & Code Usage
-This project is **Source-Available**. You are free to view, inspect, and analyze the source code for educational purposes, and you can use the compiled program free of charge. However, you are **not allowed** to copy, modify, distribute, or steal the source code to republish it under your own name.
+This project is Source-Available. You may view and analyze the source code for educational purposes, and you can use the compiled program free of charge.
+
+However, you are not allowed to:
+
+    copy, modify, distribute, or republish the source code under your own name.
