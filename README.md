@@ -45,7 +45,7 @@ COMPILER_FLAGS = -Wall -O3 -std=c++20
 build: g++ {COMPILER_FLAGS} {files} -o {executable}
 shell: echo "Target hello successfully compiled!"
 ```
-*COMPILER_FLAGS is a example for a var,you can make your own*
+*COMPILER_FLAGS is a example for a var,you can make your own!*
 
 ### Keywords Explained
 - `[target: name]`: Defines the start of a clean, isolated build block.
