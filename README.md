@@ -55,6 +55,7 @@ shell: echo "Target hello successfully compiled!"
 - `build:`: The exact compilation command passed to the compiler.
 - `shell:`: Post-build shell commands executed directly in your system terminal.
 - `NAME = VALUE` : a var in fym
+- 
   *if the fymfile is in the same dic ,just delete the `projekt`*
 
 
