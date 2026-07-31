@@ -17,7 +17,7 @@
 - **Wildcard Resolution**: Dynamically resolves source files like `*.cpp` inside specified project directories.
 
 ## How to install
-> go into the **~(home/username) folder** and type:
+> go into the **~(/home/USRNAME) folder via cd** and type:
 - ```text
    git clone https://github.com/Leonski2026/fym.git
    cd fym
@@ -55,7 +55,7 @@ shell: echo "Target hello successfully compiled!"
 - `build:`: The exact compilation command passed to the compiler.
 - `shell:`: Post-build shell commands executed directly in your system terminal.
 - `NAME = VALUE` : a var in fym
-
+  *if the fymfile is in the same dic ,just delete the `projekt`*
 
 
 ## How to Run
