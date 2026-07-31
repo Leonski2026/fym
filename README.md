@@ -56,7 +56,7 @@ shell: echo "Target hello successfully compiled!"
 - `shell:`: Post-build shell commands executed directly in your system terminal.
 - `NAME = VALUE` : a var in fym
 - 
-  *if the fymfile is in the same dic ,just delete the `projekt`*
+  *if the fymfile is in the same dic as the srcfiles(your code),just delete the `projekt`*
 
 
 ## How to Run
