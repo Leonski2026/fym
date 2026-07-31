@@ -48,7 +48,7 @@ shell: echo "Target hello successfully compiled!"
 *COMPILER_FLAGS is a example for a var,you can make your own!*
 
 ### Keywords Explained
-- `[target: name]`: Defines the start of a clean, isolated build block.
+- `[target: NAME]`: Defines the start of a clean, isolated build block.
 - `projekt:`: Specifies the source directory where your code lives.
 - `files:`: Lists the files to compile (supports wildcards like `*.cpp` and variable injection like `{variable}`).
 - `executable:`: Sets the final output path/name for your binary.
