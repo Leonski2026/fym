@@ -12,7 +12,9 @@
 #include <format>
 #include <chrono>
 
-
+/*sometimes there are some german words
+* you can google the meaning or you find out by looking at the code
+*/
 namespace fs = std::filesystem;
 typedef const std::vector<std::string> strvec;
 
