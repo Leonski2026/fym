@@ -30,8 +30,8 @@
 ## ⚠️ Platform Support Note
 This tool is built natively for **Linux / Unix-based systems (Tested on Arch/Fedora Linux)**. There is **no official Windows support** right now, as path resolution and multi-threading shells depend on POSIX system behavior.
 
-## File Syntax (`fymfile`)
-Create a file named `fymfile` in your project folder. Fields use simple `key: value` syntax wrapped inside `[target: name]` blocks:
+## File Syntax (`.fym`)
+Create a file named `YOURNAME.fym` in your project folder. Fields use simple `key: value` syntax wrapped inside `[target: NAME]` blocks:
 
 ```ini
 # Global variables can be defined at the very top
