@@ -21,12 +21,11 @@
 - ```text
    git clone https://github.com/Leonski2026/fym.git
    cd fym
-   chmod +x install.sh
-   ./install.sh
   ```
-  **in the Terminal(bash)**
-  
+  *chose your shell,select the right install script,give it the right to run(chmod) and run it*
 
+  if there is a **Update** just **run** the install script,it will **replace** the old version with the new one
+  
 ## ⚠️ Platform Support Note
 This tool is built natively for **Linux / Unix-based systems (Tested on Arch/Fedora Linux)**. There is **no official Windows support** right now, as path resolution and multi-threading shells depend on POSIX system behavior.
 
